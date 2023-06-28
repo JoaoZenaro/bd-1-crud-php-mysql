@@ -8,7 +8,9 @@ if (!isset($_GET["id_aluno"])) {
 
 $conn = conectarPDO();
 $idAluno = $_GET["id_aluno"];
-$stmt = $conn->prepare('SELECT * FROM aluno WHERE id_aluno=:id_aluno');
+$stmt = $conn->prepare('SELECT id_aluno, a.nome, nascimento, salario, sexo, ativo, c.nome AS nome_curso, foto 
+                        FROM aluno a JOIN curso c ON a.id_curso=c.id_curso 
+                        WHERE id_aluno = :id_aluno ');
 $stmt->bindParam(':id_aluno', $idAluno);
 $stmt->execute();
 $aluno = $stmt->fetch();
@@ -17,9 +19,13 @@ if (!$aluno) {
     die('Falha no banco de dados!');
 }
 
-list($idAluno, $nome, $nascimento, $salario, $foto) = $aluno;
+list($idAluno, $nome, $nascimento, $salario, $sexo, $ativo, $curso, $foto) = $aluno;
 $nascimento = date('d/m/Y', strtotime($nascimento));
 $salario = 'R$ ' . number_format($salario, 2, ',', '.');
+
+$sexos = ['m' => 'Masculino', 'f' => 'Feminino', 'n' => 'Não informado'];
+$sexo = $sexos[$aluno['sexo']];
+$ativo = $aluno['ativo'] ? 'Sim' : 'Não';
 ?>
 
 <!DOCTYPE html>
@@ -47,6 +53,9 @@ $salario = 'R$ ' . number_format($salario, 2, ',', '.');
         <li><b>Nome: </b><?= $nome ?></li>
         <li><b>Nascimento: </b><?= $nascimento ?></li>
         <li><b>Salário: </b><?= $salario ?></li>
+        <li><b>Sexo: </b><?= $sexo ?></li>
+        <li><b>Ativo: </b><?= $ativo ?></li>
+        <li><b>Curso: </b><?= $curso ?></li>
     </ul>
     <hr>
     <button type="button" onclick="window.history.back()" class="btn btn-outline-danger btn-lg">

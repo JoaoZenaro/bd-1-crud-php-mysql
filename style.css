@@ -105,3 +105,13 @@ div#detalhes_aluno img {
     border-radius: 50%;
     box-shadow: 0px 6px 5px #ccc;
 }
+
+/* Listagem com filtro */
+#listagem_alunos {
+    max-width: 90%;
+}
+
+div#detalhes_aluno li {
+    list-style-type: none;
+    line-height: 31px;
+}
