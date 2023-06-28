@@ -11,4 +11,3 @@ INSERT INTO aluno (nome, nascimento, salario)
 VALUES ('Beltrano', '2005-09-30', 42.42);
 SELECT *
 FROM aluno;
-

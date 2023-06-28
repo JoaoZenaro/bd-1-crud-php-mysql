@@ -1,8 +1,5 @@
 # PHP + MySQL + Docker
 
-### Progresso do roteiro (v5)
-**Pagina:** 11
-
 ### Configurando & Executando Ambiente
 `docker-compose up` no shell dentro da pasta  root do projeto. 
 
