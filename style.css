@@ -1,40 +1,19 @@
 body {
-    font-family: Sans-serif;
+    font-family: 'Work Sans', sans-serif;
+    line-height: 1.25;
     color: #333;
 }
 
-table.mysqli {
-    border-collapse: collapse;
-    margin: auto;
-    width: 80%;
-    border: 2px solid black;
+.erro {
+    color: #F44;
 }
 
-table.mysqli th {
-    background-color: #EEE;
-    font-size: 1em;
-    padding: 5px;
-    border: 1px solid;
-    text-align: center;
-}
-
-table.mysqli td {
-    color: #000;
-    padding: 5px;
-    border: 1px solid;
-}
-
-table caption {
-    padding: 2px;
-    color: black;
-    font-weight: bolder;
-    font-size: 150%;
-    text-align: center;
-    caption-side: top;
-    border-collapse: collapse;
-}
 
 /* Listagem com filtro */
+#listagem_alunos {
+    max-width: 90%;
+}
+
 div#listagem_alunos label {
     display: block;
     margin: 10px 0 0 0;
@@ -42,7 +21,7 @@ div#listagem_alunos label {
 
 div#listagem_alunos table {
     font-family: sans-serif;
-    font-size: 1.5em;
+    font-size: 1.2em;
 }
 
 div#listagem_alunos td {
@@ -67,6 +46,70 @@ div#listagem_alunos .busca input:focus {
     border: 1px solid grey;
 }
 
+div#listagem_alunos .icones {
+    display: flex;
+    margin-left: 10px;
+    justify-content: space-around;
+}
+
+div#listagem_alunos table caption {
+    margin: 4px;
+    color: black;
+    font-weight: bolder;
+    font-size: 150%;
+    text-align: center;
+    caption-side: top;
+}
+
+/* Página de CRUD */
+div#crud {
+    line-height: 0.7;
+}
+
+#iFoto {
+    opacity: 0;
+}
+
+#iFoto-label {
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-40%);
+}
+
+#area-imagem {
+    border: 2px dashed rgba(255, 0, 0, 0.7);
+    background-color: #eee;
+    padding: 0.25rem;
+    position: relative;
+    max-height: 150px;
+    width: fit-content;
+    display: flex;
+    align-items: center;
+}
+
+#area-imagem img:hover,
+#area-imagem:hover {
+    cursor: pointer;
+}
+
+legend.scheduler-border {
+    font-size: 1em !important;
+    text-align: left !important;
+    width: auto;
+    padding: 0 10px;
+    border-bottom: none;
+    margin-top: -10px;
+    background-color: white;
+    color: black;
+    line-height: 0.6;
+}
+
+.legenda {
+    display: flex;
+    justify-content: space-evenly;
+}
+
 /* Página de detalhes */
 div#detalhes_aluno {
     width: 800px;
@@ -87,7 +130,7 @@ div#detalhes_aluno ul {
 
 div#detalhes_aluno li {
     list-style-type: none;
-    padding: 5px;
+    line-height: 31px;
 }
 
 div#detalhes_aluno li.imagem {
@@ -104,14 +147,4 @@ div#detalhes_aluno li.imagem {
 div#detalhes_aluno img {
     border-radius: 50%;
     box-shadow: 0px 6px 5px #ccc;
-}
-
-/* Listagem com filtro */
-#listagem_alunos {
-    max-width: 90%;
-}
-
-div#detalhes_aluno li {
-    list-style-type: none;
-    line-height: 31px;
 }
