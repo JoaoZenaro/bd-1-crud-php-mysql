@@ -1,6 +1,7 @@
 <?php
 require_once 'dados_acesso.php';
 require_once 'utils.php';
+
 mysqli_report(MYSQLI_REPORT_OFF);
 // function conectarPDO()
 // {
@@ -75,7 +76,7 @@ function conectarPDO()
     try {
         // Realiza a conexão com o SGBD sem informar o banco de dados
         $conn = new PDO(DSN . ':host=' . SERVIDOR, USUARIO, SENHA);
-        console_log('Conexão com PDO realizada com sucesso!');
+        //console_log('Conexão com PDO realizada com sucesso!');
         verificaBD($conn);
         // Abre uma conexão com o banco de dados
         $conn = new PDO(DSN . ':host=' . SERVIDOR . ';dbname=' . BANCODEDADOS, USUARIO, SENHA);

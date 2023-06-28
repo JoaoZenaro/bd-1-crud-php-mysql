@@ -1,6 +1,7 @@
 <?php
 require_once "conexoes.php";
 require_once "utils.php";
+
 $conn = conectarPDO();
 if (isset($_POST["submit"])) {
     if (array_key_exists("ativo", $_POST)) {
@@ -9,8 +10,8 @@ if (isset($_POST["submit"])) {
         $ativo = "0";
     }
     if (!isset($_POST["id_aluno"])) {
-        $stmt = $conn->prepare('INSERT INTO aluno (nome, nascimento, salario, sexo, ativo, id_curso, 
-foto) VALUES(:nome, :nascimento, :salario, :sexo, :ativo, :id_curso, :foto)');
+        $stmt = $conn->prepare('INSERT INTO aluno (nome, nascimento, salario, sexo, ativo, id_curso, foto) 
+								VALUES(:nome, :nascimento, :salario, :sexo, :ativo, :id_curso, :foto)');
         if (empty($_FILES["foto"]["tmp_name"])) {
             $foto = file_get_contents("default.png");
         } else {
@@ -100,8 +101,7 @@ foto) VALUES(:nome, :nascimento, :salario, :sexo, :ativo, :id_curso, :foto)');
 		<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@200;400;500;700&display=swap" rel="stylesheet">
 		<link rel="stylesheet" href="./style.css">
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-		<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-
-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 		<title>Cadastro de Alunos</title>
 	</head>
 
@@ -113,13 +113,11 @@ foto) VALUES(:nome, :nascimento, :salario, :sexo, :ativo, :id_curso, :foto)');
 			<h5 class="alert alert-info mt-3 p-2"><?= $operacao ?></h5>
 			<a href="consulta.php">Voltar</a>
 			<hr>
-			<form class="was-validated" id="form" class="row gx-3 gy-0" method="post" enctype=multipart/formdata> <?php if (
-       !is_null($idAluno)
-   ) {
-       echo '<input type="hidden" name="id_aluno" id="id_aluno" class="form-control" value="' .
-           $idAluno .
-           '">';
-   } ?> <div class="form-floating mb-2">
+			<form class="was-validated" id="form" class="row gx-3 gy-0" method="post" enctype=multipart/form-data> 
+			<?php if (!is_null($idAluno)) {
+				echo '<input type="hidden" name="id_aluno" id="id_aluno" class="form-control" value="' . $idAluno . '">';
+			} ?> 
+	   	<div class="form-floating mb-2">
 				<input type="text" name="nome" id="iNome" class="form-control" value="<?= $nome ?>" placeholder="Entre com seu nome" maxlength="60" required autofocus>
 				<label for="iNome">Nome</label>
 		</div>
@@ -141,24 +139,15 @@ foto) VALUES(:nome, :nascimento, :salario, :sexo, :ativo, :id_curso, :foto)');
 					<legend class="scheduler-border">Sexo</legend>
 					<div class="legenda">
 						<div class="form-check form-check-inline">
-							<input type="radio" name="sexo" id="idMasc" value="m" class="form-checkinput" <?= $sexo ==
-       "m"
-           ? "checked"
-           : null ?> />
+							<input type="radio" name="sexo" id="idMasc" value="m" class="form-check-input" <?= $sexo == "m" ? "checked" : null ?> />
 							<label for="idMasc">Masculino</label>
 						</div>
 						<div class="form-check form-check-inline">
-							<input type="radio" name="sexo" id="idFem" value="f" class="form-check-input" <?= $sexo ==
-       "f"
-           ? "checked"
-           : null ?> />
+							<input type="radio" name="sexo" id="idFem" value="f" class="form-check-input" <?= $sexo == "f" ? "checked" : null ?> />
 							<label for="idFem">Feminino</label>
 						</div>
 						<div class="form-check form-check-inline">
-							<input type="radio" name="sexo" id="idNI" value="n" class="form-check-input" <?= $sexo ==
-       "n"
-           ? "checked"
-           : null ?> />
+							<input type="radio" name="sexo" id="idNI" value="n" class="form-check-input" <?= $sexo == "n" ? "checked" : null ?> />
 							<label for="idNI">Não informado</label>
 						</div>
 					</div>
@@ -166,21 +155,19 @@ foto) VALUES(:nome, :nascimento, :salario, :sexo, :ativo, :id_curso, :foto)');
 			</div>
 		</div>
 		<div class="form-check mb-2">
-			<input type="checkbox" name="ativo" id="iAtivo" class="form-check-input" <?= $ativo
-       ? "checked"
-       : null ?>>
+			<input type="checkbox" name="ativo" id="iAtivo" class="form-check-input" <?= $ativo ? "checked" : null ?>>
 			<label for="iAtivo" class="form-check-label">Ativo</label>
 		</div>
 		<div class="form-floating mb-1">
 			<select class="form-select" name="id_curso" id="iCurso" required>
 				<option selected disabled value="">Escolha abaixo o curso</option>
 				<?php
-    $stmt = $conn->query("SELECT * FROM curso");
-    while ($curso = $stmt->fetch()) {
-        $selecionado = $curso["id_curso"] == $idCurso ? "selected" : "";
-        echo "<option $selecionado value={$curso["id_curso"]}>{$curso["nome"]}</option>";
-    }
-    ?>
+					$stmt = $conn->query("SELECT * FROM curso");
+					while ($curso = $stmt->fetch()) {
+						$selecionado = $curso["id_curso"] == $idCurso ? "selected" : "";
+						echo "<option $selecionado value={$curso["id_curso"]}>{$curso["nome"]}</option>";
+					}
+				?>
 			</select>
 			<label for="id_curso">Curso</label>
 		</div>
