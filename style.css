@@ -33,3 +33,75 @@ table caption {
     caption-side: top;
     border-collapse: collapse;
 }
+
+/* Listagem com filtro */
+div#listagem_alunos label {
+    display: block;
+    margin: 10px 0 0 0;
+}
+
+div#listagem_alunos table {
+    font-family: sans-serif;
+    font-size: 1.5em;
+}
+
+div#listagem_alunos td {
+    vertical-align: middle;
+}
+
+div#listagem_alunos td.imagem {
+    text-align: center;
+    padding: 10px;
+}
+
+div#listagem_alunos td img {
+    border: 5px dashed red;
+}
+
+div#listagem_alunos .busca input {
+    border: 2px solid #d6d4d4;
+}
+
+div#listagem_alunos .busca input:focus {
+    box-shadow: none;
+    border: 1px solid grey;
+}
+
+/* Página de detalhes */
+div#detalhes_aluno {
+    width: 800px;
+    margin: 50px auto;
+    font-family: sans-serif;
+    font-size: 24px;
+}
+
+div#detalhes_aluno h2 {
+    text-align: center;
+    margin: 0 auto;
+}
+
+div#detalhes_aluno ul {
+    margin: 0;
+    padding: 0;
+}
+
+div#detalhes_aluno li {
+    list-style-type: none;
+    padding: 5px;
+}
+
+div#detalhes_aluno li.imagem {
+    display: flex;
+    float: left;
+    text-align: center;
+    border: 1px solid #ddd;
+    height: 300px;
+    padding: 20px;
+    align-items: center;
+    margin-right: 25px;
+}
+
+div#detalhes_aluno img {
+    border-radius: 50%;
+    box-shadow: 0px 6px 5px #ccc;
+}
