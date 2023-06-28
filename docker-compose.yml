@@ -10,7 +10,9 @@ services:
     volumes:
       - "./db:/docker-entrypoint-initdb.d"
   www:
-    image: php:apache
+    build:
+      context: .
+      dockerfile: Dockerfile
     volumes:
       - "./:/var/www/html"
     ports:
