@@ -41,9 +41,10 @@ if (isset($_POST["submit"])) {
         $stmt->bindParam(":tipo_comissao", $_POST["tipo_comissao"], PDO::PARAM_STR);
         $stmt->bindParam(":codigo_ctg", $_POST["codigo_ctg"], PDO::PARAM_STR);
 
-        if (!empty($_FILES["foto"]["tmp_name"]) or $estadoFoto) $stmt->bindParam(":foto", $foto, PDO::PARAM_LOB);
+        //if (!empty($_FILES["foto"]["tmp_name"]) or $estadoFoto) 
+		$stmt->bindParam(":foto", $foto, PDO::PARAM_LOB);
         $stmt->bindParam(":codigo_prd", $_POST["codigo_prd"], PDO::PARAM_STR);
-        $stmt->execute();
+		$stmt->execute();
     }
 
     header("Location: ../index.php");
