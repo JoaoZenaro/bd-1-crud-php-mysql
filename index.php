@@ -79,26 +79,26 @@ $nome_pesquisa = $_GET['nome_pesquisa'] ?? ''; // Operador de coalescência nula
                     $tipo_comissao = $tipo_comissoes[$produto['tipo_comissao']];
                     $ativo = $produto['ativo'] ? 'Sim' : 'Não';
                 ?>
-
+                
                 <tr>
-                    <td style="width: 5%;" class="text-center bg-secondary"><?php echo $produto['codigo_prd'] ?></td>
-                    <td style="width: 17%;">
+                    <td style="width: 3%;" class="text-center bg-secondary"><?php echo $produto['codigo_prd'] ?></td>
+                    <td style="width: 35%;">
                         <a href="detalhes.php?codigo_prd=<?php echo $produto['codigo_prd'] ?>">
                             <?= $produto['descricao_prd'] ?>
                         </a>
                     </td>
-                    <td style="width: 10%;" class="text-center"><?= $data_cadastro ?></td>
-                    <td style="width: 10%;" class="text-end"><?= $preco ?></td>
-                    <td style="width: 5%;"><?= $ativo ?></td>
-                    <td style="width: 5%;"><?= $produto['unidade'] ?></td>
-                    <td style="width: 18%;"><?= $tipo_comissao ?></td>
-                    <td style="width: 5%;"><?= $produto['descricao_ctg'] ?></td>
+                    <td style="width: 7%;" class="text-center"><?= $data_cadastro ?></td>
+                    <td style="width: 7%;" class="text-end"><?= $preco ?></td>
+                    <td style="width: 4%;"><?= $ativo ?></td>
+                    <td style="width: 4%;"><?= $produto['unidade'] ?></td>
+                    <td style="width: 10%;"><?= $tipo_comissao ?></td>
+                    <td style="width: 10%;"><?= $produto['descricao_ctg'] ?></td>
                     <td style="width: 15%;" class="imagem">
                         <a href="detalhes.php?codigo_prd=<?= $produto['codigo_prd'] ?>">
                             <?php echo '<img src="data:image/png;base64,' . ($produto['foto'] ? base64_encode($produto['foto']) : '') . '" width="200px"/>'; ?>
                         </a>
                     </td>
-                    <td style="width: 10%;" class="text-center">
+                    <td style="width: 5%;" class="text-center">
                     <span class="icones">
                         <a href="dal/form_crud.php?codigo_prd=<?= $produto['codigo_prd'] ?>"><i class="fa-solid fa-edit fa-lg"></i></a>
                         <button type="button" class="btn btn-link p-0 btn-excluir" style="color: red" data-bs-toggle="modal" data-bs-target="#meuModal" data-codigo_prd="<?= $produto['codigo_prd'] ?>" data-descricao_prd="<?= $produto['descricao_prd'] ?>">
