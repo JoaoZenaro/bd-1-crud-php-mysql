@@ -23,3 +23,8 @@ INSERT INTO categorias (descricao_ctg) VALUES ('Roupas');
 INSERT INTO categorias (descricao_ctg) VALUES ('Alimentos');
 INSERT INTO categorias (descricao_ctg) VALUES ('Acessórios');
 INSERT INTO categorias (descricao_ctg) VALUES ('Cosméticos');
+
+INSERT INTO produtos (descricao_prd, preco, codigo_ctg) VALUES ('Smartphone', 999.99, 1);
+INSERT INTO produtos (descricao_prd, preco, codigo_ctg) VALUES ('Camiseta', 29.99, 2);
+INSERT INTO produtos (descricao_prd, preco, codigo_ctg) VALUES ('Bolsa', 49.99, 3);
+INSERT INTO produtos (descricao_prd, preco, codigo_ctg) VALUES ('Batom', 9.99, 4);
