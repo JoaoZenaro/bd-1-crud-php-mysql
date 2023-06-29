@@ -8,8 +8,8 @@
 </head>
 <body>
 <?php
-    require_once 'listaMySQLi.php';
-    require_once 'listaPDO.php';
+    require_once 'dal/listaMySQLi.php';
+    require_once 'dal/listaPDO.php';
 
     // Listando os dados em forma de tabela
     listarDadosMySQLi_PD();

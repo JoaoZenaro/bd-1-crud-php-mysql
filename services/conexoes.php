@@ -64,7 +64,7 @@ function verificaTabelaAluno($conn) {
     if (!$stmt->fetchColumn()) {
         // Cria a tabela 'aluno' se ela não existir e a popula com alguns registros
         $stmt = $conn->query('CREATE TABLE IF NOT EXISTS aluno (id_aluno int NOT NULL AUTO_INCREMENT PRIMARY KEY, nome varchar(60) NOT NULL, nascimento date DEFAULT NULL, salario decimal(10,2) DEFAULT NULL, sexo enum("m", "f", "n") NOT NULL DEFAULT "n", ativo tinyint(1) NOT NULL DEFAULT "1", id_curso int DEFAULT NULL, foto longblob, FOREIGN KEY (id_curso) REFERENCES curso(id_curso)) ENGINE=InnoDB;');
-        $foto = file_get_contents('default.png');
+        $foto = file_get_contents('dal/default.png');
         $stmt = $conn->prepare('INSERT INTO aluno VALUES (null, "Fulano", "1990-10-25", 42.42, "n", 0, 1, :foto), (null, "Beltrano", "2000-01-01", 1234.56, "m", 1, 2, :foto);');
         $stmt->bindParam(':foto', $foto, PDO::PARAM_LOB);
         $stmt->execute();

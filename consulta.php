@@ -1,6 +1,7 @@
 <?php
-require_once "conexoes.php";
-require_once 'utils.php';
+require_once 'services/conexoes.php';
+require_once 'services/utils.php';
+
 $conn = conectarPDO();
 $nome_pesquisa = $_GET['nome_pesquisa'] ?? ''; // Operador de coalescência nula
 ?>
@@ -25,7 +26,7 @@ $nome_pesquisa = $_GET['nome_pesquisa'] ?? ''; // Operador de coalescência nula
             <img src="https://portal.crea-sc.org.br/wp-content/uploads/2019/04/UNOESC-300x100.jpg" width="300px" />
         </div>
         <hr>
-        <a href="form_crud.php" class="btn btn-success">
+        <a href="dal/form_crud.php" class="btn btn-success">
             Incluir um novo aluno
             <i class="fa-solid fa-user"></i>
         </a>
@@ -100,7 +101,7 @@ $nome_pesquisa = $_GET['nome_pesquisa'] ?? ''; // Operador de coalescência nula
                     </td>
                     <td style="width: 10%;" class="text-center">
                     <span class="icones">
-                        <a href="form_crud.php?id_aluno=<?= $aluno['id_aluno'] ?>"><i class="fa-solid fa-edit fa-lg"></i></a>
+                        <a href="dal/form_crud.php?id_aluno=<?= $aluno['id_aluno'] ?>"><i class="fa-solid fa-edit fa-lg"></i></a>
                         <button type="button" class="btn btn-link p-0 btn-excluir" style="color: red" data-bs-toggle="modal" data-bs-target="#meuModal" data-id="<?= $aluno['id_aluno'] ?>" data-nome="<?= $aluno['nome'] ?>">
                         <span class="fa-solid fa-trash fa-xl"></span>
                         </button>
@@ -164,7 +165,7 @@ $nome_pesquisa = $_GET['nome_pesquisa'] ?? ''; // Operador de coalescência nula
             $('#ok_confirm').click(function() {
                 $.ajax({
                     type: 'POST',
-                    url: 'excluir_registro.php',
+                    url: 'dal/excluir_registro.php',
                     data: {
                     id_aluno: id_aluno
                     }

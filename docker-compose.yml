@@ -3,9 +3,10 @@ services:
   db: 
     image: mysql:latest
     environment:
-      - MYSQL_DATABASE=unoesc
+      - MYSQL_DATABASE=crud_produtos
       - MYSQL_USER=user
       - MYSQL_PASSWORD=password
+      - MYSQL_ROOT_PASSWORD=root
       - MYSQL_ALLOW_EMPTY_PASSWORD=1
     volumes:
       - "./db:/docker-entrypoint-initdb.d"
