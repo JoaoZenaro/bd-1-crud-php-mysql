@@ -34,8 +34,7 @@ $ativo = $aluno['ativo'] ? 'Sim' : 'Não';
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Página de Detalhes</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
-          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
@@ -43,9 +42,7 @@ $ativo = $aluno['ativo'] ? 'Sim' : 'Não';
     <h2>Detalhes do Aluno</h2>
     <hr>
     <ul>
-        <li class="imagem">
-            <?php echo '<img src="data:image/png;base64,' . ($aluno['foto'] ? base64_encode($aluno['foto']) : '') . '" width="200px"/>'; ?>
-        </li>
+        <li class="imagem"><?php echo '<img src="data:image/png;base64,' . ($aluno['foto'] ? base64_encode($aluno['foto']) : '') . '" width="200px"/>'; ?></li>
         <li><b>Id: </b><?= $idAluno ?></li>
         <li><b>Nome: </b><?= $nome ?></li>
         <li><b>Nascimento: </b><?= $nascimento ?></li>

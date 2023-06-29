@@ -41,10 +41,15 @@ UPDATE aluno SET ativo = false WHERE id_aluno = 2;
 -- Atividade
 USE crud_produtos;
 
+CREATE TABLE IF NOT EXISTS categorias (
+    codigo_ctg INT NOT NULL PRIMARY KEY,
+    descricao_ctg VARCHAR(50) NOT NULL UNIQUE
+);
+
 CREATE TABLE IF NOT EXISTS produtos (
     codigo_prd INT AUTO_INCREMENT PRIMARY KEY,
     descricao_prd VARCHAR(50) NOT NULL UNIQUE,
-    data_cadastro DATE NOT NULL DEFAULT CURRENT_DATE,
+    data_cadastro DATE NOT NULL,
     preco DECIMAL(10, 2) NOT NULL DEFAULT 0.0,
     ativo BOOLEAN NOT NULL DEFAULT TRUE,
     unidade CHAR(5) DEFAULT 'un',
@@ -54,18 +59,10 @@ CREATE TABLE IF NOT EXISTS produtos (
     FOREIGN KEY (codigo_ctg) REFERENCES categorias(codigo_ctg)
 );
 
-CREATE TABLE IF NOT EXISTS categorias (
-    codigo_ctg INT NOT NULL PRIMARY KEY,
-    descricao_ctg VARCHAR(50) NOT NULL UNIQUE
-);
+INSERT INTO categorias VALUES (1,'Eletrônicos'), (2,'Roupas'), (3,'Acessórios'), (4,'Cosméticos');
 
-INSERT INTO categorias (descricao_ctg) VALUES ('Eletrônicos');
-INSERT INTO categorias (descricao_ctg) VALUES ('Roupas');
-INSERT INTO categorias (descricao_ctg) VALUES ('Alimentos');
-INSERT INTO categorias (descricao_ctg) VALUES ('Acessórios');
-INSERT INTO categorias (descricao_ctg) VALUES ('Cosméticos');
-
-INSERT INTO produtos (descricao_prd, preco, codigo_ctg) VALUES ('Smartphone', 999.99, 1);
-INSERT INTO produtos (descricao_prd, preco, codigo_ctg) VALUES ('Camiseta', 29.99, 2);
-INSERT INTO produtos (descricao_prd, preco, codigo_ctg) VALUES ('Bolsa', 49.99, 3);
-INSERT INTO produtos (descricao_prd, preco, codigo_ctg) VALUES ('Batom', 9.99, 4);
+INSERT INTO produtos (descricao_prd, data_cadastro, preco, codigo_ctg) VALUES ('Smartphone', CURDATE(), 999.99, 1);
+INSERT INTO produtos (descricao_prd, data_cadastro, preco, codigo_ctg) VALUES ('Laptop', CURDATE(), 2999.99, 1);
+INSERT INTO produtos (descricao_prd, data_cadastro, preco, codigo_ctg) VALUES ('Camiseta', CURDATE(), 29.99, 2);
+INSERT INTO produtos (descricao_prd, data_cadastro, preco, codigo_ctg) VALUES ('Bolsa', CURDATE(), 49.99, 3);
+INSERT INTO produtos (descricao_prd, data_cadastro, preco, codigo_ctg) VALUES ('Luva', CURDATE(), 9.99, 3);
