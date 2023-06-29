@@ -68,7 +68,8 @@ $nome_pesquisa = $_GET['nome_pesquisa'] ?? ''; // Operador de coalescência nula
                 $stmt = $conn->prepare('SELECT codigo_prd, descricao_prd, data_cadastro, preco, ativo, unidade, tipo_comissao, c.descricao_ctg, foto
                                         FROM produtos p 
                                         JOIN categorias c on p.codigo_ctg = c.codigo_ctg
-                                        WHERE p.descricao_prd LIKE :descricao_prd');
+                                        WHERE p.descricao_prd LIKE :descricao_prd ORDER BY codigo_prd');
+
                 $stmt->bindParam(':descricao_prd', $filtro, PDO::PARAM_STR);
                 $stmt->execute();
 
@@ -79,7 +80,7 @@ $nome_pesquisa = $_GET['nome_pesquisa'] ?? ''; // Operador de coalescência nula
                     $tipo_comissao = $tipo_comissoes[$produto['tipo_comissao']];
                     $ativo = $produto['ativo'] ? 'Sim' : 'Não';
                 ?>
-                
+
                 <tr>
                     <td style="width: 3%;" class="text-center bg-secondary"><?php echo $produto['codigo_prd'] ?></td>
                     <td style="width: 35%;">
@@ -155,7 +156,7 @@ $nome_pesquisa = $_GET['nome_pesquisa'] ?? ''; // Operador de coalescência nula
             
             $('.btn-excluir').click(function() {
                 elemento = $(this).parent().parent().parent();
-                codigo_prd = $(this).data('id');
+                codigo_prd = $(this).data('codigo_prd');
                 let descricao_prd = $(this).data('descricao_prd');
                 let texto = `Clique em Ok para excluir o registro "<strong>${codigo_prd} - ${descricao_prd}</strong>"...`;
                 $('.modal-body').html(texto);

@@ -56,6 +56,7 @@ if (isset($_POST["submit"])) {
         $operacao = "Inclusão";
 		$descricao_prd = "";
 		$data_cadastro = date("Y-m-d");
+		$ativo = 1;
 		$preco = 0;
 		$unidade = "un";
 		$tipo_comissao = "s";
@@ -127,7 +128,7 @@ if (isset($_POST["submit"])) {
 			<div class="row">
 				<div class="mt-2 mb-2">
 					<fieldset id="tipo_comissao" class="form-control">
-						<legend class="scheduler-border">tipo_comissao</legend>
+						<legend class="scheduler-border">Tipo de comissão</legend>
 						<div class="legenda">
 							<div class="form-check form-check-inline">
 								<input type="radio" name="tipo_comissao" id="idsc" value="s" class="form-check-input" <?= $tipo_comissao == "s" ? "checked" : null ?> />
