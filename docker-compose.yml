@@ -14,6 +14,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        - PHP_EXTENSION_INSTALL=mysqli
+        - PHP_EXTENSION_ENABLE=mysqli
     volumes:
       - "./:/var/www/html"
     ports:
