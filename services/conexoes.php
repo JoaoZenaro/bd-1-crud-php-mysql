@@ -2,8 +2,6 @@
 require_once 'dados_acesso.php';
 require_once 'utils.php';
 
-mysqli_report(MYSQLI_REPORT_OFF);
-
 function verificaBD($conn) {
     $stmt = $conn->query('SELECT COUNT(*) FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = "' . BANCODEDADOS . '"');
     if (!$stmt->fetchColumn()) $stmt = $conn->query('CREATE DATABASE IF NOT EXISTS ' . BANCODEDADOS);
