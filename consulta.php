@@ -1,6 +1,7 @@
 <?php
-require_once "conexoes.php";
-require_once 'utils.php';
+require_once 'services/conexoes.php';
+require_once 'services/utils.php';
+
 $conn = conectarPDO();
 $nome_pesquisa = $_GET['nome_pesquisa'] ?? ''; // Operador de coalescência nula
 ?>

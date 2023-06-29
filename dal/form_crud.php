@@ -1,6 +1,6 @@
 <?php
-require_once "conexoes.php";
-require_once "utils.php";
+require_once "../services/conexoes.php";
+require_once "../services/utils.php";
 
 $conn = conectarPDO();
 if (isset($_POST["submit"])) {

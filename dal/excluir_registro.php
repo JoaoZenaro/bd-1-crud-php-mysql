@@ -1,5 +1,6 @@
 <?php
-require_once "conexoes.php";
+require_once "../services/conexoes.php";
+
 $id = $_REQUEST['id_aluno'];
 
 if ($id) {

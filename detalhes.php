@@ -1,6 +1,6 @@
 <?php
-require_once "conexoes.php";
-require_once 'utils.php';
+require_once 'services/conexoes.php';
+require_once 'services/utils.php';
 
 if (!isset($_GET["id_aluno"])) {
     header("Location: consulta.php");
