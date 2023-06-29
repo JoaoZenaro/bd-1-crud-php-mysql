@@ -5,6 +5,7 @@ require_once 'services/utils.php';
 $conn = conectarPDO();
 $nome_pesquisa = $_GET['nome_pesquisa'] ?? ''; // Operador de coalescência nula
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -26,10 +27,7 @@ $nome_pesquisa = $_GET['nome_pesquisa'] ?? ''; // Operador de coalescência nula
             <img src="https://portal.crea-sc.org.br/wp-content/uploads/2019/04/UNOESC-300x100.jpg" width="300px" />
         </div>
         <hr>
-        <a href="dal/form_crud.php" class="btn btn-success">
-            Incluir um novo aluno
-            <i class="fa-solid fa-user"></i>
-        </a>
+        <a href="dal/form_crud.php" class="btn btn-success">Incluir um novo aluno <i class="fa-solid fa-user"></i></a>
         <hr>
         <form action="consulta.php" method="get">
             <div class="d-flex mt-2 p-3 bg-secondary">
@@ -52,17 +50,17 @@ $nome_pesquisa = $_GET['nome_pesquisa'] ?? ''; // Operador de coalescência nula
             <table class="table table-striped table-bordered table-hover">
                 <caption>Relação de Alunos</caption>
                 <thead class="table-dark">
-                <tr>
-                    <th>Id</th>
-                    <th>Nome</th>
-                    <th>Nascimento</th>
-                    <th>Salário (R$)</th>
-                    <th>Sexo</th>
-                    <th>Ativo</th>
-                    <th>Curso</th>
-                    <th>Foto</th>
-                    <th>Ações</th>
-                </tr>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nome</th>
+                        <th>Nascimento</th>
+                        <th>Salário (R$)</th>
+                        <th>Sexo</th>
+                        <th>Ativo</th>
+                        <th>Curso</th>
+                        <th>Foto</th>
+                        <th>Ações</th>
+                    </tr>
                 </thead>
                 <?php
                 $filtro = "%{$nome_pesquisa}%";
@@ -96,7 +94,6 @@ $nome_pesquisa = $_GET['nome_pesquisa'] ?? ''; // Operador de coalescência nula
                     <td style="width: 15%;" class="imagem">
                     <a href="detalhes.php?id_aluno=<?= $aluno['id_aluno'] ?>">
                         <?php echo '<img src="data:image/png;base64,' . ($aluno['foto'] ? base64_encode($aluno['foto']) : '') . '" width="200px"/>'; ?>
-                        <!-- <?php echo '<img src="data:image/png;base64,' . base64_encode($aluno['foto']) . '" height="200px"/>'; ?> -->
                     </a>
                     </td>
                     <td style="width: 10%;" class="text-center">
@@ -108,40 +105,40 @@ $nome_pesquisa = $_GET['nome_pesquisa'] ?? ''; // Operador de coalescência nula
                     </span>
                     </td>
                 </tr>
-                <?php
-                }
-                ?>
+
+                <?php } ?>
                 <tfoot>
-                <tr>
-                    <td colspan="9" style="text-align: center">
-                    Data atual: <?= retornarDataAtual() ?>
-                    </td>
-                </tr>
+                    <tr>
+                        <td colspan="9" style="text-align: center">
+                        Data atual: <?= retornarDataAtual() ?>
+                        </td>
+                    </tr>
                 </tfoot>
             </table>
-            <?php
-            $stmt = null;
-            $conn = null;
-            ?>
-            </div>
 
-            <div class="modal fade" id="meuModal" tabindex="-1" role="dialog">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Atenção</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p></p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button id="ok_confirm" type="button" class="btn btn-primary">Ok</button>
-                    </div>
-                    </div>
+            <?php
+                $stmt = null;
+                $conn = null;
+            ?>
+        </div>
+
+        <div class="modal fade" id="meuModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Atenção</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button id="ok_confirm" type="button" class="btn btn-primary">Ok</button>
+                </div>
                 </div>
             </div>
+        </div>
     </div>
 
     <script>
@@ -166,20 +163,18 @@ $nome_pesquisa = $_GET['nome_pesquisa'] ?? ''; // Operador de coalescência nula
                 $.ajax({
                     type: 'POST',
                     url: 'dal/excluir_registro.php',
-                    data: {
-                    id_aluno: id_aluno
-                    }
-                })
-                .done(function(resposta) {
+                    data: {id_aluno: id_aluno}
+                }).done(function(resposta) {
                     const dataResult = JSON.parse(resposta);
-                    if (dataResult.statusCode == 200) {
+                    if (dataResult.statusCode == 200)
                         console.log('Ok!');
-                    } else {
+                    else
                         console.log('Erro!');
-                    }
                 });
-            $('#meuModal').modal('toggle');
+
+                $('#meuModal').modal('toggle');
                 elemento.css('background', 'tomato');
+
                 elemento.fadeOut(800, function() {
                     $(this).remove();
                     document.location.href = "consulta.php";
