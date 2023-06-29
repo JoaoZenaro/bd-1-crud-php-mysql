@@ -6,72 +6,72 @@ $conn = conectarPDO();
 if (isset($_POST["submit"])) {
 	$ativo = array_key_exists("ativo", $_POST) ? "1" : "0";
 
-    if (!isset($_POST["id_aluno"])) {
-        $stmt = $conn->prepare('INSERT INTO aluno (nome, nascimento, salario, sexo, ativo, id_curso, foto) 
-								VALUES(:nome, :nascimento, :salario, :sexo, :ativo, :id_curso, :foto)');
+    if (!isset($_POST["codigo_prd"])) {
+        $stmt = $conn->prepare('INSERT INTO produtos (descricao_prd,data_cadastro,preco,ativo,unidade,tipo_comissao,codigo_ctg,foto) 
+								VALUES(:descricao_prd, :data_cadastro, :preco, :ativo, :unidade, :tipo_comissao, :codigo_ctg, :foto)');
 
 		$foto = file_get_contents(empty($_FILES["foto"]["tmp_name"]) ? "default.png" : $_FILES["foto"]["tmp_name"]);
 		
         $stmt->execute([
-            ":nome" => $_POST["nome"],
-            ":nascimento" => $_POST["nascimento"],
-            ":salario" => $_POST["salario"],
-            ":sexo" => $_POST["sexo"],
-            ":ativo" => $ativo,
-            ":id_curso" => $_POST["id_curso"],
-            ":foto" => $foto,
+			":descricao_prd" => $_POST["descricao_prd"],
+			":data_cadastro" => $_POST["data_cadastro"],
+			":preco" => $_POST["preco"],
+			":ativo" => $ativo,
+			":unidade" => $_POST["unidade"],
+			":tipo_comissao" => $_POST["tipo_comissao"],
+			":codigo_ctg" => $_POST["codigo_ctg"],
+			":foto" => $foto,
         ]);
     } else {
         $estadoFoto = (bool) $_COOKIE["fotoLimpada"];
-        $sql = 'UPDATE aluno SET nome = :nome, nascimento = :nascimento, salario = :salario, sexo = :sexo, ativo = :ativo, id_curso = :id_curso';
 
-        if (!empty($_FILES["foto"]["tmp_name"])) {
-            $sql .= ", foto = :foto";
-            $foto = file_get_contents($_FILES["foto"]["tmp_name"]);
-        } elseif ($estadoFoto) {
-            $sql .= ", foto = :foto";
-            $foto = file_get_contents("default.png");
-        }
+        $sql = 'UPDATE produtos SET descricao_prd = :descricao_prd, data_cadastro = :data_cadastro, preco = :preco, ativo = :ativo, unidade = :unidade, tipo_comissao = :tipo_comissao, codigo_ctg = :codigo_ctg';
 
-        $sql .= " WHERE id_aluno = :id_aluno";
+		$sql .= ", foto = :foto";
+		$foto = file_get_contents(!empty($_FILES["foto"]["tmp_name"]) ? $_FILES["foto"]["tmp_name"] : "default.png");
+
+        $sql .= " WHERE codigo_prd = :codigo_prd";
         $stmt = $conn->prepare($sql);
-        $stmt->bindParam(":nome", $_POST["nome"], PDO::PARAM_STR);
-        $stmt->bindParam(":nascimento", $_POST["nascimento"], PDO::PARAM_STR);
-        $stmt->bindParam(":salario", $_POST["salario"], PDO::PARAM_STR);
-        $stmt->bindParam(":sexo", $_POST["sexo"], PDO::PARAM_STR);
+
+		$stmt->bindParam(":descricao_prd", $_POST["descricao_prd"], PDO::PARAM_STR);
+        $stmt->bindParam(":data_cadastro", $_POST["data_cadastro"], PDO::PARAM_STR);
+        $stmt->bindParam(":preco", $_POST["preco"], PDO::PARAM_STR);
         $stmt->bindParam(":ativo", $ativo, PDO::PARAM_BOOL);
-        $stmt->bindParam(":id_curso", $_POST["id_curso"], PDO::PARAM_STR);
+        $stmt->bindParam(":unidade", $_POST["unidade"], PDO::PARAM_STR);
+        $stmt->bindParam(":tipo_comissao", $_POST["tipo_comissao"], PDO::PARAM_STR);
+        $stmt->bindParam(":codigo_ctg", $_POST["codigo_ctg"], PDO::PARAM_STR);
+
         if (!empty($_FILES["foto"]["tmp_name"]) or $estadoFoto) $stmt->bindParam(":foto", $foto, PDO::PARAM_LOB);
-        $stmt->bindParam(":id_aluno", $_POST["id_aluno"], PDO::PARAM_STR);
+        $stmt->bindParam(":codigo_prd", $_POST["codigo_prd"], PDO::PARAM_STR);
         $stmt->execute();
     }
 
-    header("Location: ../consulta.php");
+    header("Location: ../index.php");
 
 } else {
-    $idAluno = $_GET["id_aluno"] ?? null;
+    $codigo_prd = $_GET["codigo_prd"] ?? null;
 	
-    if (is_null($idAluno)) {
+    if (is_null($codigo_prd)) {
         $operacao = "Inclusão";
-        $nome = "";
-        $nascimento = date("Y-m-d");
-        $salario = 0;
-        $sexo = "f";
-        $ativo = true;
-        $idCurso = 0;
+		$descricao_prd = "";
+		$data_cadastro = date("Y-m-d");
+		$preco = 0;
+		$unidade = "un";
+		$tipo_comissao = "s";
+		$codigo_ctg = 0;
         $foto = null;
 
     } else {
         $operacao = "Alteração";
-        $stmt = $conn->prepare('SELECT id_aluno, nome, nascimento, salario, sexo, ativo, id_curso, foto FROM aluno WHERE id_aluno = :id_aluno ');
-        $stmt->bindParam(":id_aluno", $idAluno);
+        $stmt = $conn->prepare('SELECT codigo_prd,descricao_prd,data_cadastro,preco,ativo,unidade,tipo_comissao,codigo_ctg,foto FROM produtos WHERE codigo_prd = :codigo_prd ');
+        $stmt->bindParam(":codigo_prd", $codigo_prd);
         $stmt->execute();
-        $aluno = $stmt->fetch();
-        if (!$aluno) die("Falha no banco de dados!");
+        $produto = $stmt->fetch();
+        if (!$produto) die("Falha no banco de dados!");
 
-        list($idAluno, $nome, $nascimento, $salario, $sexo, $ativo, $idCurso, $foto,) = $aluno;
+		list($codigo_prd, $descricao_prd, $data_cadastro, $preco, $ativo, $unidade, $tipo_comissao, $codigo_ctg, $foto) = $produto;
     }
-    $operacao .= " de Aluno";
+    $operacao .= " de Produto";
 }
 ?>
 <!DOCTYPE html>
@@ -86,7 +86,7 @@ if (isset($_POST["submit"])) {
 	<link rel="stylesheet" href="../style.css">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
-	<title>Cadastro de Alunos</title>
+	<title>Cadastro de Produto</title>
 </head>
 <body>
 	<div class="container my-2 col" id="crud">
@@ -94,64 +94,68 @@ if (isset($_POST["submit"])) {
 			<img src="https://portal.crea-sc.org.br/wp-content/uploads/2019/04/UNOESC-300x100.jpg" width="300px" />
 		</div>
 		<h5 class="alert alert-info mt-3 p-2"><?= $operacao ?></h5>
-		<a href="../consulta.php">Voltar</a>
+		<a href="../index.php">Voltar</a>
 		<hr>
 
 		<form class="was-validated" id="form" class="row gx-3 gy-0" method="post" enctype=multipart/form-data> 
-			<?php if (!is_null($idAluno)) { echo '<input type="hidden" name="id_aluno" id="id_aluno" class="form-control" value="' . $idAluno . '">'; } ?> 
+			<?php if (!is_null($codigo_prd)) { echo '<input type="hidden" name="codigo_prd" id="codigo_prd" class="form-control" value="' . $codigo_prd . '">'; } ?> 
 			<div class="form-floating mb-2">
-				<input type="text" name="nome" id="iNome" class="form-control" value="<?= $nome ?>" placeholder="Entre com seu nome" maxlength="60" required autofocus>
-				<label for="iNome">Nome</label>
+				<input type="text" name="descricao_prd" id="idescricao_prd" class="form-control" value="<?= $descricao_prd ?>" placeholder="Entre com a descrição do produto" maxlength="50" required autofocus>
+				<label for="idescricao_prd">Descrição do Produto</label>
 			</div>
 			<div class="form-floating mb-2">
-				<input type="date" name="nascimento" id="iNascimento" class="form-control" value="<?= $nascimento ?>" placeholder="Data de nascimento" required />
-				<label for="idDataNascimento">Data de nascimento</label>
+				<input type="date" name="data_cadastro" id="idata_cadastro" class="form-control" value="<?= $data_cadastro ?>" placeholder="Data de cadastro" required />
+				<label for="idata_cadastro">Data de cadastro</label>
 			</div>
 			<div class="input-group mb-2">
 				<span class="input-group-text">$</span>
 				<div class="form-floating ">
-					<input type="number" name="salario" id="iSalario" class="form-control" value="<?= $salario ?>" step="0.01" placeholder="Entre com seu salário" required>
-					<label for="iSalario">Salário</label>
+					<input type="number" name="preco" id="ipreco" class="form-control" value="<?= $preco ?>" step="0.01" placeholder="Entre com o preço" required>
+					<label for="ipreco">Preço</label>
 				</div>
 				<span class="input-group-text">,00</span>
 			</div>
+			<div class="form-check mb-2">
+				<input type="checkbox" name="ativo" id="iativo" class="form-check-input" <?= $ativo ? "checked" : null ?>>
+				<label for="iativo" class="form-check-label mt-2">Ativo</label>
+			</div>
+			<div class="form-floating mb-2">
+				<input type="text" name="unidade" id="iunidade" class="form-control" value="<?= $unidade ?>" placeholder="Entre com a unidade do produto" maxlength="5" required>
+				<label for="iunidade">Unidade do Produto</label>
+			</div>
 			<div class="row">
 				<div class="mt-2 mb-2">
-					<fieldset id="sexo" class="form-control">
-						<legend class="scheduler-border">Sexo</legend>
+					<fieldset id="tipo_comissao" class="form-control">
+						<legend class="scheduler-border">tipo_comissao</legend>
 						<div class="legenda">
 							<div class="form-check form-check-inline">
-								<input type="radio" name="sexo" id="idMasc" value="m" class="form-check-input" <?= $sexo == "m" ? "checked" : null ?> />
-								<label for="idMasc">Masculino</label>
+								<input type="radio" name="tipo_comissao" id="idsc" value="s" class="form-check-input" <?= $tipo_comissao == "s" ? "checked" : null ?> />
+								<label for="idsc">Sem comissão</label>
 							</div>
 							<div class="form-check form-check-inline">
-								<input type="radio" name="sexo" id="idFem" value="f" class="form-check-input" <?= $sexo == "f" ? "checked" : null ?> />
-								<label for="idFem">Feminino</label>
+								<input type="radio" name="tipo_comissao" id="idcf" value="f" class="form-check-input" <?= $tipo_comissao == "f" ? "checked" : null ?> />
+								<label for="idcf">Comissão fixa</label>
 							</div>
 							<div class="form-check form-check-inline">
-								<input type="radio" name="sexo" id="idNI" value="n" class="form-check-input" <?= $sexo == "n" ? "checked" : null ?> />
-								<label for="idNI">Não informado</label>
+								<input type="radio" name="tipo_comissao" id="idpc" value="p" class="form-check-input" <?= $tipo_comissao == "p" ? "checked" : null ?> />
+								<label for="idpc">Percentual de comissão</label>
 							</div>
 						</div>
 					</fieldset>
 				</div>
 			</div>
-			<div class="form-check mb-2">
-				<input type="checkbox" name="ativo" id="iAtivo" class="form-check-input" <?= $ativo ? "checked" : null ?>>
-				<label for="iAtivo" class="form-check-label">Ativo</label>
-			</div>
 			<div class="form-floating mb-1">
-				<select class="form-select" name="id_curso" id="iCurso" required>
-					<option selected disabled value="">Escolha abaixo o curso</option>
+				<select class="form-select" name="codigo_ctg" id="icategoria" required>
+					<option selected disabled value="">Escolha abaixo a categoria</option>
 					<?php
-						$stmt = $conn->query("SELECT * FROM curso");
-						while ($curso = $stmt->fetch()) {
-							$selecionado = $curso["id_curso"] == $idCurso ? "selected" : "";
-							echo "<option $selecionado value={$curso["id_curso"]}>{$curso["nome"]}</option>";
+						$stmt = $conn->query("SELECT * FROM categorias");
+						while ($categoria = $stmt->fetch()) {
+							$selecionado = $categoria["codigo_ctg"] == $codigo_ctg ? "selected" : "";
+							echo "<option $selecionado value={$categoria["codigo_ctg"]}>{$categoria["descricao_ctg"]}</option>";
 						}
 					?>
 				</select>
-				<label for="id_curso">Curso</label>
+				<label for="codigo_ctg">Categoria</label>
 			</div>
 			<div class="form-group">
 				<div class="input-group mb-1 px-2 py-2 rounded-pill bg-white shadow-sm">
@@ -175,20 +179,14 @@ if (isset($_POST["submit"])) {
 				</div>
 			</div>
 			<div class="form-group mb-3 text-center">
-				<button type="button" class="btn btn-warning" onclick="limparFoto()">
-					<i class="fa-solid fa-eraser"></i> Limpar foto
-				</button>
+				<button type="button" class="btn btn-warning" onclick="limparFoto()"><i class="fa-solid fa-eraser"></i> Limpar foto</button>
 			</div>
 			<hr>
 			<div class="form-group mb-3 text-center">
 				<div id="operacao" class="d-inline">
-					<button type="submit" name="submit" class="btn btn-success">
-						<i class="fa-solid fa-check"></i> Salvar
-					</button>
+					<button type="submit" name="submit" class="btn btn-success"><i class="fa-solid fa-check"></i> Salvar</button>
 				</div>
-				<button type="button" class="btn btn-danger" onclick="window.location.href='../consulta.php'">
-					<i class="fa-solid fa-cancel"></i> Cancelar
-				</button>
+				<button type="button" class="btn btn-danger" onclick="window.location.href='../index.php'"><i class="fa-solid fa-cancel"></i> Cancelar</button>
 			</div>
 		</form>
 

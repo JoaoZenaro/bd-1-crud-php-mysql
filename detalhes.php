@@ -2,28 +2,28 @@
 require_once 'services/conexoes.php';
 require_once 'services/utils.php';
 
-if (!isset($_GET["id_aluno"])) header("Location: consulta.php");
+if (!isset($_GET["codigo_prd"])) header("Location: index.php");
 
 $conn = conectarPDO();
-$idAluno = $_GET["id_aluno"];
-$stmt = $conn->prepare('SELECT id_aluno, a.nome, nascimento, salario, sexo, ativo, c.nome AS nome_curso, foto 
-                        FROM aluno a JOIN curso c ON a.id_curso=c.id_curso 
-                        WHERE id_aluno = :id_aluno ');
+$codigo_prd = $_GET["codigo_prd"];
+$stmt = $conn->prepare('SELECT codigo_prd, descricao_prd, data_cadastro, preco, ativo, unidade, tipo_comissao, c.descricao_ctg, foto
+                        FROM produtos p 
+                        JOIN categorias c on p.codigo_ctg = c.codigo_ctg
+                        WHERE p.codigo_prd = :codigo_prd');
 
-$stmt->bindParam(':id_aluno', $idAluno);
+$stmt->bindParam(':codigo_prd', $codigo_prd);
 $stmt->execute();
-$aluno = $stmt->fetch();
+$produto = $stmt->fetch();
 
-if (!$aluno) die('Falha no banco de dados!');
+if (!$produto) die('Falha no banco de dados!');
 
-list($idAluno, $nome, $nascimento, $salario, $sexo, $ativo, $curso, $foto) = $aluno;
-$nascimento = date('d/m/Y', strtotime($nascimento));
-$salario = 'R$ ' . number_format($salario, 2, ',', '.');
+list($codigo_prd, $descricao_prd, $data_cadastro, $preco, $ativo, $unidade, $tipo_comissao, $descricao_ctg) = $produto;
 
-$sexos = ['m' => 'Masculino', 'f' => 'Feminino', 'n' => 'Não informado'];
-$sexo = $sexos[$aluno['sexo']];
-$ativo = $aluno['ativo'] ? 'Sim' : 'Não';
-
+$data_cadastro = date('d-m-Y', strtotime($produto['data_cadastro']));
+$preco = number_format($produto['preco'], 2, ',', '.');
+$tipo_comissoes = ['s' => 'Sem comissão', 'f' => 'Comissão fixa', 'p' => 'Percentual de comissão'];
+$tipo_comissao = $tipo_comissoes[$produto['tipo_comissao']];
+$ativo = $produto['ativo'] ? 'Sim' : 'Não';
 ?>
 
 <!DOCTYPE html>
@@ -38,18 +38,19 @@ $ativo = $aluno['ativo'] ? 'Sim' : 'Não';
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-<div class="container table-responsive" id="detalhes_aluno">
-    <h2>Detalhes do Aluno</h2>
+<div class="container table-responsive" id="detalhes_produto">
+    <h2>Detalhes do Produto</h2>
     <hr>
     <ul>
-        <li class="imagem"><?php echo '<img src="data:image/png;base64,' . ($aluno['foto'] ? base64_encode($aluno['foto']) : '') . '" width="200px"/>'; ?></li>
-        <li><b>Id: </b><?= $idAluno ?></li>
-        <li><b>Nome: </b><?= $nome ?></li>
-        <li><b>Nascimento: </b><?= $nascimento ?></li>
-        <li><b>Salário: </b><?= $salario ?></li>
-        <li><b>Sexo: </b><?= $sexo ?></li>
+        <li class="imagem"><?php echo '<img src="data:image/png;base64,' . ($produto['foto'] ? base64_encode($produto['foto']) : '') . '" width="200px"/>'; ?></li>
+        <li><b>Id: </b><?= $codigo_prd ?></li>
+        <li><b>Descrição: </b><?= $descricao_prd ?></li>
+        <li><b>Data Cadastro: </b><?= $data_cadastro ?></li>
+        <li><b>Preço (R$): </b><?= $preco ?></li>
         <li><b>Ativo: </b><?= $ativo ?></li>
-        <li><b>Curso: </b><?= $curso ?></li>
+        <li><b>Unidade: </b><?= $unidade ?></li>
+        <li><b>Tipo Comissão: </b><?= $tipo_comissao ?></li>
+        <li><b>Categoria: </b><?= $descricao_ctg ?></li>
     </ul>
     <hr>
     <button type="button" onclick="window.history.back()" class="btn btn-outline-danger btn-lg">
