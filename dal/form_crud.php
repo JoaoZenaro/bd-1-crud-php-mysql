@@ -91,108 +91,113 @@ if (isset($_POST["submit"])) {
 	<title>Cadastro de Produto</title>
 </head>
 <body>
-	<div class="container my-2 col" id="crud">
-		<div class="d-flex justify-content-center">
-			<img src="https://portal.crea-sc.org.br/wp-content/uploads/2019/04/UNOESC-300x100.jpg" width="300px" />
+	<div class="hero">
+		<div class="hero-container">
+			<div class="title">
+				<h2><?= $operacao ?></h2>
+			</div>
 		</div>
-		<h5 class="alert alert-info mt-3 p-2"><?= $operacao ?></h5>
-		<a href="../index.php">Voltar</a>
-		<hr>
+  </div>
 
-		<form class="was-validated" id="form" class="row gx-3 gy-0" method="post" enctype=multipart/form-data> 
-			<?php if (!is_null($codigo_prd)) { echo '<input type="hidden" name="codigo_prd" id="codigo_prd" class="form-control" value="' . $codigo_prd . '">'; } ?> 
-			<div class="form-floating mb-2">
-				<input type="text" name="descricao_prd" id="idescricao_prd" class="form-control" value="<?= $descricao_prd ?>" placeholder="Entre com a descrição do produto" maxlength="50" required autofocus>
-				<label for="idescricao_prd">Descrição do Produto</label>
-			</div>
-			<div class="form-floating mb-2">
-				<input type="date" name="data_cadastro" id="idata_cadastro" class="form-control" value="<?= $data_cadastro ?>" placeholder="Data de cadastro" required />
-				<label for="idata_cadastro">Data de cadastro</label>
-			</div>
-			<div class="input-group mb-2">
-				<span class="input-group-text">$</span>
-				<div class="form-floating ">
-					<input type="number" name="preco" id="ipreco" class="form-control" value="<?= $preco ?>" step="0.01" placeholder="Entre com o preço" required>
-					<label for="ipreco">Preço</label>
+	<div class="app-container">
+		<div class="crud-card" id="crud">
+			<a href="../index.php" style="color: green">Voltar para o início</a>
+
+			<form class="was-validated mt-4" id="form" class="row gx-3 gy-0" method="post" enctype=multipart/form-data> 
+				<?php if (!is_null($codigo_prd)) { echo '<input type="hidden" name="codigo_prd" id="codigo_prd" class="form-control" value="' . $codigo_prd . '">'; } ?> 
+				<div class="form-floating mb-2">
+					<input type="text" name="descricao_prd" id="idescricao_prd" class="form-control" value="<?= $descricao_prd ?>" placeholder="Entre com a descrição do produto" maxlength="50" required autofocus>
+					<label for="idescricao_prd">Descrição do Produto</label>
 				</div>
-				<span class="input-group-text">,00</span>
-			</div>
-			<div class="form-check mb-2">
-				<input type="checkbox" name="ativo" id="iativo" class="form-check-input" <?= $ativo ? "checked" : null ?>>
-				<label for="iativo" class="form-check-label mt-2">Ativo</label>
-			</div>
-			<div class="form-floating mb-2">
-				<input type="text" name="unidade" id="iunidade" class="form-control" value="<?= $unidade ?>" placeholder="Entre com a unidade do produto" maxlength="5" required>
-				<label for="iunidade">Unidade do Produto</label>
-			</div>
-			<div class="row">
-				<div class="mt-2 mb-2">
-					<fieldset id="tipo_comissao" class="form-control">
-						<legend class="scheduler-border">Tipo de comissão</legend>
-						<div class="legenda">
-							<div class="form-check form-check-inline">
-								<input type="radio" name="tipo_comissao" id="idsc" value="s" class="form-check-input" <?= $tipo_comissao == "s" ? "checked" : null ?> />
-								<label for="idsc">Sem comissão</label>
+				<div class="form-floating mb-2">
+					<input type="date" name="data_cadastro" id="idata_cadastro" class="form-control" value="<?= $data_cadastro ?>" placeholder="Data de cadastro" required />
+					<label for="idata_cadastro">Data de cadastro</label>
+				</div>
+				<div class="input-group mb-2">
+					<span class="input-group-text">$</span>
+					<div class="form-floating ">
+						<input type="number" name="preco" id="ipreco" class="form-control" value="<?= $preco ?>" step="0.01" placeholder="Entre com o preço" required>
+						<label for="ipreco">Preço</label>
+					</div>
+					<span class="input-group-text">,00</span>
+				</div>
+				<div class="form-check mb-2">
+					<input type="checkbox" name="ativo" id="iativo" class="form-check-input" <?= $ativo ? "checked" : null ?>>
+					<label for="iativo" class="form-check-label mt-2">Ativo</label>
+				</div>
+				<div class="form-floating mb-2">
+					<input type="text" name="unidade" id="iunidade" class="form-control" value="<?= $unidade ?>" placeholder="Entre com a unidade do produto" maxlength="5" required>
+					<label for="iunidade">Unidade do Produto</label>
+				</div>
+				<div class="row">
+					<div class="mt-2 mb-2">
+						<fieldset id="tipo_comissao" class="form-control">
+							<legend class="scheduler-border">Tipo de comissão</legend>
+							<div class="legenda">
+								<div class="form-check form-check-inline">
+									<input type="radio" name="tipo_comissao" id="idsc" value="s" class="form-check-input" <?= $tipo_comissao == "s" ? "checked" : null ?> />
+									<label for="idsc">Sem comissão</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input type="radio" name="tipo_comissao" id="idcf" value="f" class="form-check-input" <?= $tipo_comissao == "f" ? "checked" : null ?> />
+									<label for="idcf">Comissão fixa</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input type="radio" name="tipo_comissao" id="idpc" value="p" class="form-check-input" <?= $tipo_comissao == "p" ? "checked" : null ?> />
+									<label for="idpc">Percentual de comissão</label>
+								</div>
 							</div>
-							<div class="form-check form-check-inline">
-								<input type="radio" name="tipo_comissao" id="idcf" value="f" class="form-check-input" <?= $tipo_comissao == "f" ? "checked" : null ?> />
-								<label for="idcf">Comissão fixa</label>
-							</div>
-							<div class="form-check form-check-inline">
-								<input type="radio" name="tipo_comissao" id="idpc" value="p" class="form-check-input" <?= $tipo_comissao == "p" ? "checked" : null ?> />
-								<label for="idpc">Percentual de comissão</label>
-							</div>
+						</fieldset>
+					</div>
+				</div>
+				<div class="form-floating mb-1">
+					<select class="form-select" name="codigo_ctg" id="icategoria" required>
+						<option selected disabled value="">Escolha abaixo a categoria</option>
+						<?php
+							$stmt = $conn->query("SELECT * FROM categorias");
+							while ($categoria = $stmt->fetch()) {
+								$selecionado = $categoria["codigo_ctg"] == $codigo_ctg ? "selected" : "";
+								echo "<option $selecionado value={$categoria["codigo_ctg"]}>{$categoria["descricao_ctg"]}</option>";
+							}
+						?>
+					</select>
+					<label for="codigo_ctg">Categoria</label>
+				</div>
+				<div class="form-group">
+					<div class="input-group mb-1 px-2 py-2 rounded-pill bg-white shadow-sm">
+						<input id="iFoto" type="file" name="foto" id="iFoto" class="form-control" accept="image/*">
+						<label id="iFoto-label" for="iFoto" class="font-weight-light text-muted">Selecione uma foto</label>
+						<div class="input-group-append">
+							<label for="iFoto" class="btn btn-dark m-0 rounded-pill px-4">
+								<i class="fa fa-cloud-upload mr-2"></i>
+								<small class="text-uppercase font-weight-bold">Escolher o arquivo</small>
+							</label>
 						</div>
-					</fieldset>
-				</div>
-			</div>
-			<div class="form-floating mb-1">
-				<select class="form-select" name="codigo_ctg" id="icategoria" required>
-					<option selected disabled value="">Escolha abaixo a categoria</option>
-					<?php
-						$stmt = $conn->query("SELECT * FROM categorias");
-						while ($categoria = $stmt->fetch()) {
-							$selecionado = $categoria["codigo_ctg"] == $codigo_ctg ? "selected" : "";
-							echo "<option $selecionado value={$categoria["codigo_ctg"]}>{$categoria["descricao_ctg"]}</option>";
-						}
-					?>
-				</select>
-				<label for="codigo_ctg">Categoria</label>
-			</div>
-			<div class="form-group">
-				<div class="input-group mb-1 px-2 py-2 rounded-pill bg-white shadow-sm">
-					<input id="iFoto" type="file" name="foto" id="iFoto" class="form-control" accept="image/*">
-					<label id="iFoto-label" for="iFoto" class="font-weight-light text-muted">Selecione uma foto</label>
-					<div class="input-group-append">
-						<label for="iFoto" class="btn btn-dark m-0 rounded-pill px-4">
-							<i class="fa fa-cloud-upload mr-2"></i>
-							<small class="text-uppercase font-weight-bold">Escolher o arquivo</small>
+					</div>
+					<div id="area-imagem" class="mt-3 mb-3 mx-auto">
+						<label for="iFoto">
+							<?php if (is_null($foto)) {
+								echo '<img id="iImagem" src="default.png" height="125px" class="mx-auto rounded shadow-sm"/>';
+							} else {
+								echo '<img id="iImagem" src="data:image/png;base64,' . base64_encode($foto) . '" height="125px" class="mx-auto rounded shadow-sm"/>';
+							} ?>
 						</label>
 					</div>
 				</div>
-				<div id="area-imagem" class="mt-3 mb-3 mx-auto">
-					<label for="iFoto">
-						<?php if (is_null($foto)) {
-							echo '<img id="iImagem" src="default.png" height="125px" class="mx-auto rounded shadow-sm"/>';
-						} else {
-							echo '<img id="iImagem" src="data:image/png;base64,' . base64_encode($foto) . '" height="125px" class="mx-auto rounded shadow-sm"/>';
-						} ?>
-					</label>
+				<div class="form-group mb-3 text-center">
+					<button type="button" class="btn btn-warning" onclick="limparFoto()"><i class="fa-solid fa-eraser"></i> Limpar foto</button>
 				</div>
-			</div>
-			<div class="form-group mb-3 text-center">
-				<button type="button" class="btn btn-warning" onclick="limparFoto()"><i class="fa-solid fa-eraser"></i> Limpar foto</button>
-			</div>
-			<hr>
-			<div class="form-group mb-3 text-center">
-				<div id="operacao" class="d-inline">
-					<button type="submit" name="submit" class="btn btn-success"><i class="fa-solid fa-check"></i> Salvar</button>
+				<hr>
+				<div class="form-group mb-3 text-center">
+					<div id="operacao" class="d-inline">
+						<button type="submit" name="submit" class="btn btn-success"><i class="fa-solid fa-check"></i> Salvar</button>
+					</div>
+					<button type="button" class="btn btn-danger" onclick="window.location.href='../index.php'"><i class="fa-solid fa-cancel"></i> Cancelar</button>
 				</div>
-				<button type="button" class="btn btn-danger" onclick="window.location.href='../index.php'"><i class="fa-solid fa-cancel"></i> Cancelar</button>
-			</div>
-		</form>
+			</form>
 
-		<div id="mensagem"></div>
+			<div id="mensagem"></div>
+		</div>
 	</div>
 
 	<script>
