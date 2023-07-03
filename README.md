@@ -1,5 +1,7 @@
 # PHP + MySQL + Docker
 
+**Acadêmicos: Gabriel Marafon, João Marcelo Zenaro, Victor Soligo** 
+
 ### Configurando & Executando Ambiente
 `docker compose up` no shell dentro da pasta  root do projeto. 
 
